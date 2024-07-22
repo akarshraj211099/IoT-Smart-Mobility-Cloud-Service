@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Scanner</title>
+    <script src="{% static 'js/qr-scanner.min.js' %}" type="module"></script>
+    <style>
+        #qr-video {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Scanner</h1>
+    <video id="qr-video"></video>
+    <div id="sensor-info"></div>
+    <script type="module">
+        import QrScanner from '{% static "js/qr-scanner.min.js" %}';
+
+        const videoElem = document.getElementById('qr-video');
+        const qrScanner = new QrScanner(videoElem, result => handleQrCode(result));
+        qrScanner.start();
+
+        function handleQrCode(result) {
+            console.log('Scanned QR Code:', result);  // Debugging line
+            if (!result) {
+                console.error('No QR code data found');
+                return;
+            }
+            fetch(`/sensors/sensor/${result}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('sensor-info').innerText = data.error;
+                    } else {
+                        document.getElementById('sensor-info').innerText = `
+                            Name: ${data.name} \n
+                            Location: ${data.location} \n
+                            Status: ${data.status}
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching sensor data:', error);
+                    document.getElementById('sensor-info').innerText = 'Error fetching sensor data.';
+                });
+        }
+    </script>
+</body>
+</html>

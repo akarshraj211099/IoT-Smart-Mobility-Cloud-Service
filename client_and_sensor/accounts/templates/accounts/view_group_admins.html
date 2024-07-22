@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Group Admins</title>
+</head>
+<body>
+    <h1> Group Admins</h1>
+    <ul>
+        {% for admin in group_admins %}
+            <li>{{ admin.user.username }} - {{ admin.group_name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+</body>
+</html>

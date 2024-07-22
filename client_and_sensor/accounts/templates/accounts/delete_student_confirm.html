@@ -1,0 +1,16 @@
+<!-- accounts/delete_student_confirm.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Student</title>
+</head>
+<body>
+    <h1>Confirm Delete</h1>
+    <p>Are you sure you want to delete {{ student.user.first_name }} {{ student.user.last_name }}?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm</button>
+        <a href="{% url 'view_students' %}">Cancel</a>
+    </form>
+</body>
+</html>

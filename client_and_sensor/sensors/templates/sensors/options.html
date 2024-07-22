@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Options</title>
+</head>
+<body>
+    <h1>Sensor Options</h1>
+    <button onclick="window.location.href='{% url 'qr_scan' %}'">Scan QR Code</button>
+    <form id="sensor-id-form" action="{% url 'sensor_id' %}" method="post">
+        {% csrf_token %}
+        <label for="sensor_id">Enter Sensor ID:</label>
+        <input type="text" id="sensor_id" name="sensor_id" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
